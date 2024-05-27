@@ -1,12 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-
-interface Note {
-	id: number;
-	title: string;
-	content: string;
-}
+import type { Note } from '@/provider/store'
 
 const NewNotePage: React.FC = () => {
 	const [title, setTitle] = useState<string>("");
@@ -14,27 +9,31 @@ const NewNotePage: React.FC = () => {
 	const router = useRouter();
 	
 	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		
-		const response = await fetch("/api/notes", { method: "GET" });
-		const notes = await response.json();
-		
-		const newNote: Note = {
-			id: notes.length ? notes[notes.length - 1].id + 1 : 1,
-			title,
-			content,
-		};
-		notes.push(newNote);
-		
-		await fetch("/api/notes", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(notes),
-		});
-		
-		router.push("/");
+		try {
+			e.preventDefault();
+			
+			const response = await fetch("/api/notes", { method: "GET" });
+			const notes = await response.json();
+			
+			const newNote: Note = {
+				id: notes.length ? notes[notes.length - 1].id + 1 : 1,
+				title,
+				content,
+			};
+			notes.push(newNote);
+			
+			await fetch("/api/notes", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(notes),
+			});
+			
+			router.push("/");
+		} catch (error) {
+			console.error(error)
+		}
 	};
 	
 	return (

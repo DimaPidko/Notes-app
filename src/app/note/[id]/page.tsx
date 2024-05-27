@@ -1,12 +1,5 @@
 import { Metadata } from 'next';
-import path from 'path';
-import { promises as fs } from 'fs';
-
-interface Note {
-	id: number;
-	title: string;
-	content: string;
-}
+import { getNoteById } from '@/hooks/useNote'
 
 interface NotePageProps {
 	params: {
@@ -14,16 +7,10 @@ interface NotePageProps {
 	};
 }
 
-export const metadata: Metadata = {
-	title: 'Note',
-};
+// export const metadata: Metadata = {
+// 	title: 'Note',
+// };
 
-const getNoteById = async (id: number) => {
-	const jsonDirectory = path.join(process.cwd());
-	const fileContents = await fs.readFile(jsonDirectory + '/db.json', 'utf8');
-	const notes: Note[] = JSON.parse(fileContents);
-	return notes.find(note => note.id === id);
-};
 
 export default async function NotePage({ params }: NotePageProps) {
 	const note = await getNoteById(Number(params.id));

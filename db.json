@@ -6,8 +6,12 @@
   },
   {
     "id": 2,
-    "title": "Second note",
+    "title": "Second note2",
     "content": "The content of Second note :)"
+  },
+  {
+    "id": 3,
+    "title": "First note1",
+    "content": "The content of first note :)"
   }
-
 ]

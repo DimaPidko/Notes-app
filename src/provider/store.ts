@@ -9,4 +9,9 @@ const store  = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+export interface Note {
+	id: number;
+	title: string;
+	content: string;
+}
 export default store
